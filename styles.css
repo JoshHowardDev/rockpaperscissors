@@ -1,0 +1,60 @@
+body, h1{
+    margin: 0px;
+    padding: 0px;
+}
+
+body {
+    background-image: url("images/something.jpg");
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    min-height: 100vh;
+    font-family: 'Inter', sans-serif;
+}
+
+.title {
+    text-align: right;
+    margin: 5px;
+    margin-bottom: 20px;
+}
+
+.bodyel {
+}
+
+.resultsContainer {
+    margin-right: 20%;
+    margin-left: 20%;
+    margin-top: 40px;
+    display: flex;
+    justify-content: center;
+}
+
+.buttonContainer {
+    text-align: center;
+}
+
+#currentRound {
+    flex: 1;
+    text-align: center;
+}
+
+#results {
+    flex: 1;
+    text-align: center;
+}
+
+#currentRound h1, #results h1 {
+ font-size: 48px;   
+}
+
+#currentRound p, #results p {
+    font-size: 24px;   
+   }
+
+.choiceButton {
+    width: 200px;
+    height: 50px;
+    background-color: rgb(202, 238, 202);
+    border-radius: 3px;
+    color: rgb(61, 61, 61);
+    font-size: 24px;
+}

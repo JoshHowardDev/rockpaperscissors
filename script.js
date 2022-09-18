@@ -1,44 +1,68 @@
+const computerScoreEl = document.querySelector('#computerScore');
+const playerScoreEl = document.querySelector('#playerScore');
+const resultsFinalLineEl  = document.querySelector('#resultsFinalLine');
+const currentRoundFinalLineEl  = document.querySelector('#currentRoundFinalLine');
+
+let playerScore = 0;
+let computerScore = 0;
+let gamesPlayed = 0;
+let maxGamesPlayed = 5;
+
 function getComputerChoice() {
     const choicesArray = ['Rock', 'Paper', 'Scissors']
     return choicesArray[Math.floor(Math.random() * 3)]
 }
 
-function playRound(playerSelection, computerSelection) {
+function declareScores() {
+    computerScoreEl.textContent = `Computer Score: ${computerScore}`
+    playerScoreEl.textContent = `Your Score: ${playerScore}`
+    resultsFinalLine.textContent = ''
+}
+
+
+
+function playRound() {
+
+    if (gamesPlayed >= maxGamesPlayed) return;
+    
+    let playerSelection = this.dataset.choice;
+    let computerSelection = getComputerChoice();
     const winnersObj = {
         Rock: 'Scissors',
         Paper: 'Rock',
         Scissors: 'Paper',
     }
-    playerSelection = playerSelection.charAt(0).toUpperCase() + playerSelection.slice(1).toLowerCase();
+
+    //No longer required, because playerSelection is not typed. Keeping in case we need to type in the future.
+    //playerSelection = playerSelection.charAt(0).toUpperCase() + playerSelection.slice(1).toLowerCase();
     
     if (playerSelection === computerSelection) {
-        return [0, 0, `It's a tie! You both chose ${playerSelection}`]
+        currentRoundFinalLineEl.textContent = `It's a tie! You both chose ${playerSelection}`
     } else if (winnersObj[playerSelection] === computerSelection) {
-        return [1, 0, `You win! ${playerSelection} beats ${computerSelection}`]
+        playerScore++
+        currentRoundFinalLineEl.textContent = `You win! ${playerSelection} beats ${computerSelection}`
     } else {
-        return [0, 1, `You lose! ${computerSelection} beats ${playerSelection}`]
+        computerScore++
+        currentRoundFinalLineEl.textContent = `You lose! ${computerSelection} beats ${playerSelection}`
     }
+
+    declareScores();
+
+    gamesPlayed++
+
+    if (gamesPlayed >= maxGamesPlayed) gameOver();
+
 }
 
-function game() {
-    let rounds = 5;
-    let playerScore = 0;
-    let computerScore = 0;
-    let roundResult;
-
-    for (let i = 0; i < rounds; i++) {
-        roundResult = playRound(prompt(), getComputerChoice())
-        playerScore += roundResult[0]
-        computerScore += roundResult[1]
-        console.log(roundResult[2])
-    }
-
+function gameOver() {
     if (playerScore > computerScore) {
-        return `You won ${playerScore} game${playerScore > 1 ? 's' : ''} to ${computerScore}!`
+        resultsFinalLineEl.textContent = `You won ${playerScore} game${playerScore > 1 ? 's' : ''} to ${computerScore}!`
+    } else if (computerScore > playerScore) {
+        resultsFinalLineEl.textContent = `You lost ${playerScore} game${playerScore > 1 ? 's' : ''} to ${computerScore}!`
     } else {
-        return `You lost ${playerScore} game${playerScore > 1 ? 's' : ''} to ${computerScore}!`
+        resultsFinalLineEl.textContent = `It's a tie! You both won ${playerScore} round${playerScore > 1 ? 's' : ''}!`
     }
-
 }
 
-console.log(game())
+const buttons = document.querySelectorAll('button');
+buttons.forEach(button => button.addEventListener('click', playRound))
